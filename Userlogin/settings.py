@@ -125,4 +125,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # set manually
-LOGIN_URL = 'login_page'
+LOGIN_URL = 'http://127.0.0.1:8000/login/login_page/'
