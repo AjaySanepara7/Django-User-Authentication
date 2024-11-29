@@ -7,16 +7,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'login/CSS/bootstrap.min.css' %}">
 </head>
 <body>
-    <form>
+    <form class=" py-5 col-9 m-auto" method="post">
         {% csrf_token %}
-        <div class="d-flex justify-content-center m-5 p-5">
-            <button type="submit" class="submit btn btn-success" id="Sign up"><a href="/login/register/">Sign up</a></button>
-        <div>
+        <div class="d-flex justify-content-center mt-5 p-2">
+            <button type="submit" class="submit btn btn-success" id="Sign up" name="signup">
+                    <a href="{% url 'login:registration' %}" class="text-white">Sign up</a>
+            </button>
+        </div>
 
-        </div class="d-flex justify-content-center m-5 p-5">
-            <button type="submit" class="submit btn btn-success" id="login"><a href="/login/login_page/">Login</a></button>
+        <div class="d-flex justify-content-center m-2 p-2">
+            <button type="submit" class="submit btn btn-success" id="login" name="login">
+                    <a href="{% url 'login:login_page' %}" class="text-white">Login</a>
+            </button>
         </div>
     </form>
 </body>
