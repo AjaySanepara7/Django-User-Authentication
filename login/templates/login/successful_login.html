@@ -1,14 +1,12 @@
+{% extends "login/base.html" %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'login/CSS/bootstrap.min.css' %}">
-</head>
-<body>
+{% block title %} User Account {% endblock %}
+
+{% block body %} 
+
+    {% if registration_success %}<h3 class="text-center pt-5"><strong>{{ registration_success }}</strong></h3>{% endif %}
     <div class="d-flex justify-content-center">
         <h1>Login Successful</h1>
     </div>
@@ -28,13 +26,10 @@
                 <button type="button" class="submit btn btn-success m-2" id="submit">Home</button>
                 
             </a>
-            <a href="{% url 'login:logout_page' %}">
-                <button type="button" class="submit btn btn-danger m-2" id="logout" name="logout">Logout</button>
-            </a>
+                <button type="submit" class="submit btn btn-danger m-2" id="logout" name="logout">Logout</button>
             <a href="{% url 'login:forget_password_page' %}" class="text-white">
                 <button type="button" class="submit btn btn-success m-2" id="submit">Change Password</button>
             </a>
         </div>
     </form>
-</body>
-</html>
+{% endblock %}

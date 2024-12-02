@@ -11,17 +11,16 @@ class Person(models.Model):
     ]
 
     hobbies = [
-        ("S", "Swimming"),
-        ("R", "Reading"),
+        ("S", "Sports"),
         ("T", "Travelling"),
-        ("W", "Writing"),
-        ("P", "Painting")
+        ("R", "Reading"),
+        ("P", "Painting"),
+        ("w", "Writing")
     ]
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     gender = models.CharField(max_length=100, choices=person_gender)
     date_of_birth = models.DateField()
-    # hobby = models.CharField(max_length=100, choices=hobbies)
     hobby = MultiSelectField(choices=hobbies)
 
 

@@ -1,12 +1,11 @@
-from django.shortcuts import render
-from login.models import Person
-from django.contrib.auth.models import User
-import datetime
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.conf import settings
+from login.models import Person
+from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.contrib.auth import authenticate, login, logout
 
 
 def home(request):
@@ -18,11 +17,13 @@ def login_page(request):
         user = authenticate(username=request.POST.get("username"), password=request.POST.get("password"))
         if user is not None:
             login(request, user)
-            user_person = user.person_set.first()
 
             return HttpResponseRedirect(reverse("login:successful_login"))
         else:
-            return HttpResponseRedirect(reverse("login:failed_login"))
+            context = {
+                "login_failed": "Login failed. Invalid credentials"
+            }
+            return render(request, "login/login_page.html", context)
 
     return render(request, "login/login_page.html")
 
@@ -33,17 +34,15 @@ def successful_login(request):
         "user": request.user,
         "user_person": request.user.person_set.first()
     }
+    if request.method == "POST":
+        logout(request)
+        context = {
+                "logout": "Logout Successful"
+            }
+        return render(request, "login/login_page.html", context)
    
     return render(request, "login/successful_login.html", context)
 
-
-def failed_login(request):
-    return render(request, "login/failed_login.html")
-
-
-def logout_page(request):
-    logout(request)
-    return render(request, "login/logout_page.html")
 
 def registration(request):
     if request.method == "POST":
@@ -57,43 +56,43 @@ def registration(request):
         date = request.POST.get("date_of_birth")
 
         if User.objects.filter(username = request.POST.get("username")).exists():
-            return HttpResponseRedirect(reverse("login:user_already_exists"))
+            context = {
+                "userexists": "User already exists. Username should be unique"
+            }
+            return render(request, "login/registration.html", context)
         else:
             user_1 = User.objects.create_user(username=username, email=email, password=password, first_name=firstname, last_name=lastname)
             user_1.save()
             person1 = Person(user=user_1, gender=gender, hobby=hobby, date_of_birth=date)
             person1.save()
-            return HttpResponseRedirect(reverse("login:registration_successful"))
+            context = {
+                "registration_success": "Registration Successful"
+            }
+
+            return HttpResponseRedirect(reverse("login:login_page"))
         
     return render(request, "login/registration.html")
 
 
 def forget_password_page(request):
     if request.method == "POST":
-        try:
-            u = User.objects.get(username= request.POST.get("username"))
-            if u.check_password(request.POST.get("current_password")):
-                u.set_password(request.POST.get("password"))
-                u.save()
-                return HttpResponseRedirect(reverse("login:success_change_password"))
+        user = request.user
+        if user.check_password(request.POST.get("current_password")):
+            if user.check_password(request.POST.get("password")):
+                context = {
+                "same_password": "The new password cannot be the same as the current password"
+                }
+                return render(request, "login/forget_password_page.html", context)
             else:
-                return HttpResponseRedirect(reverse("login:fail_change_password"))                
-        except:
-            return HttpResponseRedirect(reverse("login:fail_change_password"))
+                user.set_password(request.POST.get("password"))
+                user.save()
+                context = {
+                "success_change_password": "Password changed successfully"
+                }
+                return render(request, "login/forget_password_page.html", context)
+        else:
+            context = {
+            "fail_change_password": "Invalid Password"
+            }
+            return render(request, "login/forget_password_page.html", context)                
     return render(request, "login/forget_password_page.html")
-
-
-def success_change_password(request):
-    return render(request, "login/success_change_password.html")
-
-
-def fail_change_password(request):
-    return render(request, "login/fail_change_password.html")
-
-
-def user_already_exists(request):
-    return render(request, "login/user_already_exists.html")
-
-
-def registration_successful(request):
-    return render(request, "login/registration_successful.html")
