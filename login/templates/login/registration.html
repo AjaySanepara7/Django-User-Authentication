@@ -1,21 +1,17 @@
+{% extends "login/base.html" %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'login/CSS/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'login/CSS/signupForm.css' %}">
-</head>
-<body>
-    
+
+{% block title %} Sign up Page {% endblock %}
+
+{% block body %} 
     <div class="p-3 col-sm-6 mx-auto container my-5">
         <div class="top-line"></div>
         <div class="formbox p-5">
             
             <h1 class="text-center pt-5">Sign Up</h1>
 
+            {% if userexists %}<h3 class="text-center pt-5"><strong>{{ userexists }}</strong></h3>{% endif %}
 
             <form class=" py-5 cmxform" id="signupForm"   method="post" autocomplete="off">
                 {% csrf_token %}
@@ -100,14 +96,19 @@
                         <legend class="h6 pt-5">Gender</legend>
                         <div class="d-flex  py-2">
                             <div class="w-25">
-                                    <input type="radio" id="gender_male" value="Male" name="gender" >
+                                    <input type="radio" id="gender_male" value="M" name="gender" >
                                     <label for="gender_male">Male</label>
                             </div>
 
                             <div class="w-25">    
-                                    <input type="radio" id="gender_female" value="Female" name="gender">
+                                    <input type="radio" id="gender_female" value="F" name="gender">
                                     <label for="gender_female">Female</label>
                             </div>
+
+                            <div class="w-25">    
+                                <input type="radio" id="gender_female" value="O" name="gender">
+                                <label for="gender_female">Other</label>
+                        </div>
                         </div>
                         <label for="gender" class="error">Please select your gender</label>
                     </fieldset>
@@ -117,28 +118,28 @@
 
                         <legend class="mt-5 mb-3 h6">Select your Hobbies</legend>
                         <div class="mt-4">
-                            <input type="checkbox" class="checkbox" id="hobby_sports" value="Sports" name="hobby" >
+                            <input type="checkbox" class="checkbox" id="hobby_sports" value="S" name="hobby" >
                             <label for="hobby_sports">Sports</label>
                         </div>
 
                         <div class="mt-2">
-                            <input type="checkbox" class="checkbox" id="hobby_travelling" value="Travelling" name="hobby">
+                            <input type="checkbox" class="checkbox" id="hobby_travelling" value="T" name="hobby">
                             <label for="hobby_travelling">Travelling</label>
                         </div>
 
                         <div class="mt-2">
-                            <input type="checkbox" class="checkbox" id="hobby_reading" value="Reading" name="hobby">
+                            <input type="checkbox" class="checkbox" id="hobby_reading" value="R" name="hobby">
                             <label for="hobby_reading">Reading</label>
                         </div>
 
                         <div class="mt-2">
-                            <input type="checkbox" class="checkbox" id="hobby_painting" value="Painting" name="hobby">
+                            <input type="checkbox" class="checkbox" id="hobby_painting" value="P" name="hobby">
                             <label for="hobby_painting">Painting</label>
                         </div>
                         
                         <div class="my-2 mb-2">
-                            <input type="checkbox" class="checkbox" id="hobby_singing" value="Singing" name="hobby">
-                            <label for="hobby_singing">Singing</label>
+                            <input type="checkbox" class="checkbox" id="hobby_singing" value="W" name="hobby">
+                            <label for="hobby_singing">Writing</label>
                         </div>
                         <label for="hobby" class="error">Please select atleast one hobby</label>
                         
@@ -147,16 +148,12 @@
 
                     <div class="d-flex justify-content-center mt-5">
                         <button type="submit" class="submit btn btn-success m-2" id="submit" name="submit">Submit</button>
-
-
-
                         
                         <a href="{% url 'login:login_page' %}">
                             <button type="button" class="submit btn btn-success m-2" id="login" name="login">Login</button>
                         </a>
                             <a href="{% url 'login:home' %}" class="text-white">
                         <button type="button" class="submit btn btn-success m-2" id="submit">Home</button>
-
                             </a>
                         
                     </div>
@@ -166,9 +163,4 @@
         </div>
     </div>
 
-</body>
-<script src="{% static 'login/JS/jquery-3.7.1.min.js' %}"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
-<script src="{% static 'login/JS/signup_form.js' %}"></script>
-</html>
+{% endblock %}
