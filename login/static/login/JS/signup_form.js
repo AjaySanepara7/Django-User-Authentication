@@ -1,11 +1,20 @@
 $(document).ready(function(){
+
+    $.validator.addMethod("password_validation", function(value, element){
+        const password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+        return this.optional(element) || password_regex.test(value);
+    }, "The password must be 8 characters long, contain one uppercase letter, one lowercase letter, one number and one special character.")
+
+
     $("#submit").click(function(e){
+        debugger;
         validation()
     })
 
     $("#change_password").click(function(e){
         change_password_validation()
     })
+
     
     function validation(){
         $("#signupForm").validate({
@@ -18,11 +27,11 @@ $(document).ready(function(){
                 lastname: "required",
                 password: {
                     required: true,
-                    minlength: 5
+                    password_validation: true
                 },
                 confirm_password: {
                     required: true,
-                    minlength: 5,
+                    password_validation: true,
                     equalTo: "#password"
                 },
                 email: {
@@ -50,11 +59,11 @@ $(document).ready(function(){
                 },
                 password: {
                     required: "Please provide a password",
-                    minlength: "Your password must be at least 5 characters long"
+                    password_validation: "The password must be 8 characters long, contain one uppercase letter, one lowercase letter, one number and one special character.",
                 },
                 confirm_password: {
                     required: "Please provide a password",
-                    minlength: "Your password must be at least 5 characters long",
+                    password_validation: "The password must be 8 characters long, contain one uppercase letter, one lowercase letter, one number and one special character.",
                     equalTo: "Please enter the same password as above"
                 },
                 date_of_birth: {
@@ -78,11 +87,11 @@ $(document).ready(function(){
                 },
                 password: {
                     required: true,
-                    minlength: 5
+                    password_validation: true
                 },
                 confirm_password: {
                     required: true,
-                    minlength: 5,
+                    password_validation: true,
                     equalTo: "#password"
                 },
             },
@@ -96,11 +105,11 @@ $(document).ready(function(){
                 },
                 password: {
                     required: "Please provide a password",
-                    minlength: "Your password must be at least 5 characters long"
+                    password_validation: "The password must be 8 characters long, contain one uppercase letter, one lowercase letter, one number and one special character."
                 },
                 confirm_password: {
                     required: "Please provide a password",
-                    minlength: "Your password must be at least 5 characters long",
+                    password_validation: "The password must be 8 characters long, contain one uppercase letter, one lowercase letter, one number and one special character.",
                     equalTo: "Please enter the same password as above"
                 },
             }
