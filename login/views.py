@@ -76,16 +76,16 @@ def registration(request):
 
 def forget_password_page(request):
     if request.method == "POST":
-        u = request.user
-        if u.check_password(request.POST.get("current_password")):
-            if u.check_password(request.POST.get("password")):
+        user = request.user
+        if user.check_password(request.POST.get("current_password")):
+            if user.check_password(request.POST.get("password")):
                 context = {
                 "same_password": "The new password cannot be the same as the current password"
                 }
                 return render(request, "login/forget_password_page.html", context)
             else:
-                u.set_password(request.POST.get("password"))
-                u.save()
+                user.set_password(request.POST.get("password"))
+                user.save()
                 context = {
                 "success_change_password": "Password changed successfully"
                 }
