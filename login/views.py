@@ -6,18 +6,47 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
+from login.forms import UserForm, PersonForm
+from django.views import View
 
 
-def home(request):
-    return render(request, "login/home.html")
+class Home(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "login/home.html")
 
 
-def login_page(request):
-    if request.method == "POST":
+class Registration(View):
+    user_form_class = UserForm
+    person_form_class = PersonForm
+    template_name = "login/registration.html"
+
+    def get(self, request, *args, **kwargs):
+        user_form = self.user_form_class()
+        person_form = self.person_form_class()
+        return render(request, self.template_name, {"user_form": user_form, "person_form": person_form})
+    
+    def post(self, request, *args, **kwargs):
+        user_form = self.user_form_class(request.POST)
+        person_form = self.person_form_class(request.POST)
+        if user_form.is_valid() and person_form.is_valid():
+            user_1 = user_form.save()
+
+            person_1 = person_form.save(commit=False)
+            person_1.user = user_1
+            person_1.save()
+            return HttpResponseRedirect(reverse("login:login_page"))
+        
+        return render(request, self.template_name, {"user_form": user_form, "person_form": person_form})
+
+
+class LoginPageView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "login/login_page.html")
+    
+    def post(self, request, *args, **kwargs):
         user = authenticate(username=request.POST.get("username"), password=request.POST.get("password"))
         if user is not None:
             login(request, user)
-
             return HttpResponseRedirect(reverse("login:successful_login"))
         else:
             context = {
@@ -25,57 +54,28 @@ def login_page(request):
             }
             return render(request, "login/login_page.html", context)
 
-    return render(request, "login/login_page.html")
 
-
-@login_required
-def successful_login(request):
-    context = {
-        "user": request.user,
-        "user_person": request.user.person_set.first()
-    }
-    if request.method == "POST":
+class SuccessfulLoginView(View):
+    def get(self, request, *args, **kwargs):
+        context = {
+            "user": request.user,
+            "user_person": request.user.person_set.first()
+        }
+        return render(request, "login/successful_login.html", context)
+    
+    def post(self, request, *args, **kwargs):
         logout(request)
         context = {
                 "logout": "Logout Successful"
             }
         return render(request, "login/login_page.html", context)
-   
-    return render(request, "login/successful_login.html", context)
 
 
-def registration(request):
-    if request.method == "POST":
-        username = request.POST.get("username")
-        firstname = request.POST.get("firstname")
-        lastname = request.POST.get("lastname")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        gender = request.POST.get("gender")
-        hobby = request.POST.getlist("hobby")
-        date = request.POST.get("date_of_birth")
-
-        if User.objects.filter(username = request.POST.get("username")).exists():
-            context = {
-                "userexists": "User already exists. Username should be unique"
-            }
-            return render(request, "login/registration.html", context)
-        else:
-            user_1 = User.objects.create_user(username=username, email=email, password=password, first_name=firstname, last_name=lastname)
-            user_1.save()
-            person1 = Person(user=user_1, gender=gender, hobby=hobby, date_of_birth=date)
-            person1.save()
-            context = {
-                "registration_success": "Registration Successful"
-            }
-
-            return HttpResponseRedirect(reverse("login:login_page"))
-        
-    return render(request, "login/registration.html")
-
-
-def forget_password_page(request):
-    if request.method == "POST":
+class ForgetPasswordView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "login/forget_password_page.html")
+    
+    def post(self, request, *args, **kwargs):
         user = request.user
         if user.check_password(request.POST.get("current_password")):
             if user.check_password(request.POST.get("password")):
@@ -94,5 +94,4 @@ def forget_password_page(request):
             context = {
             "fail_change_password": "Invalid Password"
             }
-            return render(request, "login/forget_password_page.html", context)                
-    return render(request, "login/forget_password_page.html")
+            return render(request, "login/forget_password_page.html", context) 
