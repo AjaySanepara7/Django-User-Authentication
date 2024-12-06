@@ -23,8 +23,8 @@ $(document).ready(function(){
                     required: true,
                     minlength: 2
                 },
-                firstname: "required",
-                lastname: "required",
+                first_name: "required",
+                last_name: "required",
                 password: {
                     required: true,
                     password_validation: true
@@ -51,10 +51,10 @@ $(document).ready(function(){
                     required: "Please enter a username",
                     minlength: "Your username must consist of at least 2 characters"
                 },
-                firstname: {
+                first_name: {
                     required: "Please enter a firstname",
                 },
-                lastname: {
+                last_name: {
                     required: "Please enter a lastname",
                 },
                 password: {
