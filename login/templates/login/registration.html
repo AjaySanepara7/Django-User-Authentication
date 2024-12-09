@@ -9,21 +9,136 @@
         <div class="top-line"></div>
         <div class="formbox p-5">
             
-            <h1 class="text-center pt-5">Sign Up</h1>
+            <h1 class="text-center pt-5 mb-5">Sign Up</h1>
 
             {% if userexists %}<h3 class="text-center pt-5"><strong>{{ userexists }}</strong></h3>{% endif %}
 
             <form class=" py-5 cmxform" id="signupForm"   method="post" autocomplete="off">
                 {% csrf_token %}
-                <h1>Sign Up</h1>
 
+                {{ user_form.non_field_errors }}
+                {{ person_form.non_field_errors }}
                 <div>
-                    {{user_form}}
+                    <div>
+                        {{ user_form.username.errors }}
+                    </div>
+                    <div class="fieldWrapper input-group mb-5">
+                        <span class="input-group-text border border-2 border-dark">
+                            <img src="{% static 'login/Assets/person.png' %}" class="w-100 h-100" alt="mail-logo">
+                        </span>
+                        {{ user_form.username }}
+                    </div>
+                    <label for="{{ user_form.username.id_for_label }}" class="error">Please enter your Username</label>
                 </div>
 
+
                 <div>
-                    {{person_form}}
+                    <div>
+                        {{ user_form.first_name.errors }}
+                    </div>
+                    <div class="fieldWrapper input-group mb-5">
+                        <span class="input-group-text border border-2 border-dark">
+                            <img src="{% static 'login/Assets/person.png' %}" class="w-100 h-100" alt="mail-logo">
+                        </span>
+                        {{ user_form.first_name }}
+                    </div>
+                    <label for="{{ user_form.first_name.id_for_label }}" class="error">Please enter your First Name</label>
                 </div>
+
+
+                <div>
+                    <div>
+                        {{ user_form.last_name.errors }}
+                    </div>
+                    <div class="fieldWrapper input-group mb-5">
+                        <span class="input-group-text border border-2 border-dark">
+                            <img src="{% static 'login/Assets/person.png' %}" class="w-100 h-100" alt="mail-logo">
+                        </span>
+                        {{ user_form.last_name }}
+                    </div>
+                    <label for="{{ user_form.last_name.id_for_label }}" class="error">Please enter your Last Name</label>
+                </div>
+
+
+                <div>
+                    <div>
+                        {{ user_form.email.errors }}
+                    </div>
+                    <div class="error mt-3">
+                    </div>
+                    <div class="fieldWrapper input-group mb-5">
+                        <span class="input-group-text border border-2 border-dark">
+                            <img src="{% static 'login/Assets/image.png' %}" class="w-100 h-100" alt="mail-logo">
+                        </span>
+                        {{ user_form.email }}
+                    </div>
+                    <label for="{{ user_form.email.id_for_label }}" class="error">Please enter your Email</label>
+                </div>
+
+
+                <div>
+                    <div>
+                        {{ user_form.password.errors }}
+                    </div>
+                    <div class="fieldWrapper input-group mb-5">
+                        <span class="input-group-text border border-2 border-dark">
+                            <img src="{% static 'login/Assets/lock.png' %}" class="w-100 h-100" alt="mail-logo">
+                        </span>
+                        {{ user_form.password }}
+                    </div>
+                    <label for="{{ user_form.password.id_for_label }}" class="error">Please enter your Password</label>
+                </div>
+
+                
+                <div>
+                    <div>
+                        {{ user_form.confirm_password.errors }}
+                    </div>
+                    <div class="fieldWrapper input-group mb-5">
+                        <span class="input-group-text border border-2 border-dark">
+                            <img src="{% static 'login/Assets/lock.png' %}" class="w-100 h-100" alt="mail-logo">
+                        </span>
+                        {{ user_form.confirm_password }}
+                    </div>
+                    <label for="{{ user_form.confirm_password.id_for_label }}" class="error">Please enter the same password as above</label>
+                </div>
+
+
+                <div>
+                    <div>
+                        {{ user_form.date_of_birth.errors }}
+                    </div>
+                    <label for="{{ person_form.date_of_birth.id_for_label }}" class="h6">Date of Birth</label>
+                    <div class="input-group mt-2 mb-5">
+                        {{ person_form.date_of_birth }}
+                    </div>
+                    <label for="date_of_birth" class="error">Please enter Date of Birth</label>
+                </div>
+
+
+                <fieldset>
+                    <div>
+                        {{ person_form.gender.errors }}
+                    </div>
+                    <legend class="h6 pt-2">Gender</legend>
+                    <div class="form-check d-flex  py-2 mb-5">
+                        {{ person_form.gender}}
+                    </div>
+                    <label for="gender" class="error">Please select your gender</label>
+                </fieldset>
+
+
+                <fieldset>
+                    <div>
+                        {{ person_form.hobby.errors }}
+                    </div>
+                    <legend class="mb-3 h6">Select your Hobbies</legend>
+                    <div>
+                        {{ person_form.hobby}}
+                    </div>
+                    <label for="hobby" class="error">Please select atleast one hobby</label>
+                </fieldset>
+
 
                 <div class="d-flex justify-content-center mt-5">
                     <button type="submit" class="submit btn btn-success m-2" id="submit" name="submit">Submit</button>
@@ -32,9 +147,8 @@
                         <button type="button" class="submit btn btn-success m-2" id="login" name="login">Login</button>
                     </a>
                         <a href="{% url 'login:home' %}" class="text-white">
-                    <button type="button" class="submit btn btn-success m-2" id="submit">Home</button>
+                    <button type="button" class="submit btn btn-success m-2" id="Home">Home</button>
                         </a>
-                    
                 </div>
 
             </form>
