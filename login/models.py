@@ -7,7 +7,7 @@ class Person(models.Model):
     person_gender = [
         ("M", "Male"),
         ("F", "Female"),
-        ("o", "Others")
+        ("O", "Others")
     ]
 
     hobbies = [
