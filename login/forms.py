@@ -48,4 +48,4 @@ class PersonForm(forms.ModelForm):
 
     class Meta:
         model = Person
-        fields = ['gender', 'date_of_birth', 'hobby']
+        fields = ['gender', 'date_of_birth', 'hobby', 'profie_picture']

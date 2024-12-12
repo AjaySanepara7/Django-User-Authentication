@@ -22,6 +22,7 @@ class Person(models.Model):
     gender = models.CharField(max_length=100, choices=person_gender)
     date_of_birth = models.DateField()
     hobby = MultiSelectField(choices=hobbies)
+    profie_picture = models.ImageField(upload_to='images/', null=True, blank=True)
 
 
     def __str__(self):

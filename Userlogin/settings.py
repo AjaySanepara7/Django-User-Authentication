@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 
@@ -52,12 +53,17 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'Userlogin.wsgi.application'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
 
 
 # Database
@@ -115,3 +121,37 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # set manually
 LOGIN_URL = 'http://127.0.0.1:8000/login_page/'
+
+
+
+
+
+
+# AUTHENTICATION_BACKENDS = [
+#     'django.contrib.auth.backends.ModelBackend',
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# ]
+
+
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'APP': {
+#             'client_id': '123',
+#             'secret': '456',
+#             'key': ''
+#         }
+#     }
+# }
+
+# ACCOUNT_EMAIL_REQUIRED = True
+# # ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+
+# ACCOUNT_CONFIRM_EMAIL_ON_GET = "False"
+
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# LOGIN_REDIRECT_UR = "/login_redirect/"
+
+# # ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
+

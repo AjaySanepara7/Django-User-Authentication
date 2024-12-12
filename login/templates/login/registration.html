@@ -13,7 +13,7 @@
 
             {% if userexists %}<h3 class="text-center pt-5"><strong>{{ userexists }}</strong></h3>{% endif %}
 
-            <form class=" py-5 cmxform" id="signupForm"   method="post" autocomplete="off">
+            <form class=" py-5 cmxform" id="signupForm" method="post" autocomplete="off" enctype="multipart/form-data">
                 {% csrf_token %}
 
                 {{ user_form.non_field_errors }}
@@ -137,6 +137,18 @@
                         {{ person_form.hobby}}
                     </div>
                     <label for="hobby" class="error">Please select atleast one hobby</label>
+                </fieldset>
+
+
+                <fieldset>
+                    <div>
+                        {{ person_form.profie_picture.errors }}
+                    </div>
+                    <legend class="mb-3 h6">Upload profile picture</legend>
+                    <div>
+                        {{ person_form.profie_picture}}
+                    </div>
+                    <label for="hobby" class="error">Please upload an image</label>
                 </fieldset>
 
 

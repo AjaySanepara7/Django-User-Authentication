@@ -4,7 +4,7 @@ from login.models import Person
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from login.forms import UserForm, PersonForm
 from django.views import View
@@ -13,7 +13,7 @@ from django.views import View
 class Home(View):
     def get(self, request, *args, **kwargs):
         return render(request, "login/home.html")
-
+    
 
 class Registration(View):
     user_form_class = UserForm
@@ -27,7 +27,7 @@ class Registration(View):
     
     def post(self, request, *args, **kwargs):
         user_form = self.user_form_class(request.POST)
-        person_form = self.person_form_class(request.POST)
+        person_form = self.person_form_class(request.POST, request.FILES)
         if user_form.is_valid() and person_form.is_valid():
             user_1 = user_form.save()
 
